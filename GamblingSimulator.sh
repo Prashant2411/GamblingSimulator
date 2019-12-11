@@ -8,7 +8,7 @@ LOSS=0
 
 winCount=0
 lossCount=0
-
+stakeAmount=0
 declare -A dailyAmount
 
 function getDailyGamblingResult () {
@@ -57,16 +57,27 @@ function printUnluckyDay () {
 	done | sort -k2 -nr | tail -1
 }
 
+function nextMonth () {
+	if [ $1 -gt 0 ]
+	then
+		main
+	else
+		echo "No money left"
+	fi
+}
+
 function main () {
 	getDailyGamblingResult
-	echo "Total Earning: $(( $winCount - $lossCount ))"
 	for i in ${!dailyAmount[@]}
 	do
 		echo "$i ${dailyAmount[$i]}"
 	done
 	getCumulativeAddition
+	echo ${dailyAmount[@]}
 	printLuckyDay
 	printUnluckyDay
+	echo "Total Earning: $(( $winCount - $lossCount ))"
+	nextMonth $(( $winCount - $lossCount ))
 }
 
 main
