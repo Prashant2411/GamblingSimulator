@@ -6,27 +6,38 @@ BET_AMOUNT=1
 WIN=1
 LOSS=0
 
-stakeAmount=100
-lowerStackLimit=$(( $stakeAmount / 2 ))
-upperStackLimit=$(( $stakeAmount + $stakeAmount / 2 ))
+winCount=0
+lossCount=0
+
+declare -a dailyAmountArr
 
 function getDailyGamblingResult () {
-	while (( $stakeAmount > $lowerStackLimit && $stakeAmount < $upperStackLimit ))
+	for (( i=0;i<20;i++ ))
 	do
-		winLoss=$(( RANDOM % 2 ))
-		case $winLoss in
-			$WIN )
-				((stakeAmount++));;
-			$LOSS )
-				((stakeAmount--));;
-		esac
+		stakeAmount=100
+		lowerStackLimit=$(( $stakeAmount / 2 ))
+		upperStackLimit=$(( $stakeAmount + $stakeAmount / 2 ))
+		while (( $stakeAmount > $lowerStackLimit && $stakeAmount < $upperStackLimit ))
+		do
+			winLoss=$(( RANDOM % 2 ))
+			case $winLoss in
+				$WIN )
+					winCount=$(( $winCount + 1 ))
+					((stakeAmount++));;
+				$LOSS )
+					((lossCount++))
+					((stakeAmount--));;
+			esac
+		done
+		dailyAmountArr[$i]=$(( $stakeAmount - 100))
 	done
-	echo $stakeAmount
+	echo "$winCount $lossCount $stakeAmount ${dailyAmountArr[@]}"
 }
 
 function main () {
-	stakeAmount=$( getDailyGamblingResult )
-	echo "$stakeAmount"
+	read winCount lossCount stakeAmount dailyAmountArr < <( getDailyGamblingResult )
+	echo ${dailyAmountArr[@]}
+	echo "Total Earnings: " $(( $winCount - $lossCount ))
 }
 
 main
