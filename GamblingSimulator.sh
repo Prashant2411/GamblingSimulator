@@ -9,7 +9,7 @@ LOSS=0
 winCount=0
 lossCount=0
 
-declare -a dailyAmountArr
+declare -A dailyAmount
 
 function getDailyGamblingResult () {
 	for (( i=0;i<20;i++ ))
@@ -29,15 +29,17 @@ function getDailyGamblingResult () {
 					((stakeAmount--));;
 			esac
 		done
-		dailyAmountArr[$i]=$(( $stakeAmount - 100))
+		dailyAmount[Day"$i"]=$(( $stakeAmount - 100 ))
 	done
-	echo "$winCount $lossCount $stakeAmount ${dailyAmountArr[@]}"
 }
 
 function main () {
-	read winCount lossCount stakeAmount dailyAmountArr < <( getDailyGamblingResult )
-	echo ${dailyAmountArr[@]}
-	echo "Total Earnings: " $(( $winCount - $lossCount ))
+	getDailyGamblingResult
+	echo "Total Earning: $(( $winCount - $lossCount ))"
+	for i in ${!dailyAmount[@]}
+	do
+		echo "$i ${dailyAmount[$i]}"
+	done
 }
 
 main
