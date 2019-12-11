@@ -33,6 +33,14 @@ function getDailyGamblingResult () {
 	done
 }
 
+function getCumulativeAddition () {
+	for i in ${!dailyAmount[@]}
+	do
+		sum=$(( $sum + ${dailyAmount[$i]} ))
+		dailyAmount[$i]=$sum
+	done
+}
+
 function main () {
 	getDailyGamblingResult
 	echo "Total Earning: $(( $winCount - $lossCount ))"
@@ -40,6 +48,19 @@ function main () {
 	do
 		echo "$i ${dailyAmount[$i]}"
 	done
+
+	getCumulativeAddition
+	echo "Luckiest Day:"
+	for i in ${!dailyAmount[@]}
+	do
+		echo "$i ${dailyAmount[$i]}"
+	done | sort -k2 -nr | head -1
+
+	echo "Unluckiest Day:"
+	for i in ${!dailyAmount[@]}
+	do
+		echo "$i ${dailyAmount[$i]}"
+	done | sort -k2 -nr | tail -1
 }
 
 main
