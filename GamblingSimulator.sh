@@ -33,6 +33,7 @@ function getDailyGamblingResult () {
 }
 
 function getCumulativeAddition () {
+	sumOfDict=0
 	for i in ${!dailyAmount[@]}
 	do
 		sumOfDict=$(( $sumOfDict + ${dailyAmount[$i]} ))
