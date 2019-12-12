@@ -6,15 +6,13 @@ BET_AMOUNT=1
 WIN=1
 LOSS=0
 
-winCount=0
-lossCount=0
-stakeAmount=100
-
 declare -A dailyAmount
 
 function getDailyGamblingResult () {
 	for (( i=0;i<20;i++ ))
 	do
+		winCount=0
+		lossCount=0
 		stakeAmount=100
 		lowerStackLimit=$(( $stakeAmount / 2 ))
 		upperStackLimit=$(( $stakeAmount + $stakeAmount / 2 ))
