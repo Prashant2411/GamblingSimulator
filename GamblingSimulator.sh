@@ -8,7 +8,8 @@ LOSS=0
 
 winCount=0
 lossCount=0
-stakeAmount=0
+stakeAmount=100
+
 declare -A dailyAmount
 
 function getDailyGamblingResult () {
@@ -36,8 +37,8 @@ function getDailyGamblingResult () {
 function getCumulativeAddition () {
 	for i in ${!dailyAmount[@]}
 	do
-		sum=$(( $sum + ${dailyAmount[$i]} ))
-		dailyAmount[$i]=$sum
+		sumOfDict=$(( $sumOfDict + ${dailyAmount[$i]} ))
+		dailyAmount[$i]=$sumOfDict
 	done
 }
 
