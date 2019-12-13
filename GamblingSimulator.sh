@@ -6,6 +6,7 @@ BET_AMOUNT=1
 WIN=1
 LOSS=0
 STAKE_AMOUNT=100
+NO_OF_DAYS=20
 
 declare -A dailyAmount
 
