@@ -13,7 +13,7 @@ declare -A dailyAmount
 function getDailyGamblingResult () {
 	winCount=0
 	lossCount=0
-	for (( i=0;i<20;i++ ))
+	for (( i=0;i<$NO_OF_DAYS;i++ ))
 	do
 		stakeAmount=$STAKE_AMOUNT
 		lowerStackLimit=$(( $stakeAmount / 2 ))
