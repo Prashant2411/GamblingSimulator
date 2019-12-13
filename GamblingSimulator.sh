@@ -5,6 +5,7 @@ echo "Welcome to the Gambling Simulator."
 BET_AMOUNT=1
 WIN=1
 LOSS=0
+STAKE_AMOUNT=100
 
 declare -A dailyAmount
 
@@ -13,7 +14,7 @@ function getDailyGamblingResult () {
 	lossCount=0
 	for (( i=0;i<20;i++ ))
 	do
-		stakeAmount=100
+		stakeAmount=$STAKE_AMOUNT
 		lowerStackLimit=$(( $stakeAmount / 2 ))
 		upperStackLimit=$(( $stakeAmount + $stakeAmount / 2 ))
 		while (( $stakeAmount > $lowerStackLimit && $stakeAmount < $upperStackLimit ))
@@ -21,14 +22,14 @@ function getDailyGamblingResult () {
 			winLoss=$(( RANDOM % 2 ))
 			case $winLoss in
 				$WIN )
-					winCount=$(( $winCount + 1 ))
+					((winCount++))
 					((stakeAmount++));;
 				$LOSS )
 					((lossCount++))
 					((stakeAmount--));;
 			esac
 		done
-		dailyAmount[Day"$i"]=$(( $stakeAmount - 100 ))
+		dailyAmount[Day"$i"]=$(( $stakeAmount - $STAKE_AMOUNT ))
 	done
 }
 
