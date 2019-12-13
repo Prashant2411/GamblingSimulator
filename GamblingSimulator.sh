@@ -5,8 +5,11 @@ echo "Welcome to the Gambling Simulator."
 BET_AMOUNT=1
 WIN=1
 LOSS=0
+PERCENT=50
 STAKE_AMOUNT=100
 NO_OF_DAYS=20
+LOWER_STACK_LIMIT=$(( $stakeAmount * $PERCENT / 100 ))
+UPPER_STAKE_LIMIT=$(( $stakeAmount + $LOWER_STACK_LIMIT ))
 
 declare -A dailyAmount
 
@@ -16,9 +19,7 @@ function getDailyGamblingResult () {
 	for (( i=0;i<$NO_OF_DAYS;i++ ))
 	do
 		stakeAmount=$STAKE_AMOUNT
-		lowerStackLimit=$(( $stakeAmount / 2 ))
-		upperStackLimit=$(( $stakeAmount + $stakeAmount / 2 ))
-		while (( $stakeAmount > $lowerStackLimit && $stakeAmount < $upperStackLimit ))
+		while (( $stakeAmount > $LOWER_STAKE_LIMIT && $stakeAmount < $UPPER_STAKE_LIMIT ))
 		do
 			winLoss=$(( RANDOM % 2 ))
 			case $winLoss in
